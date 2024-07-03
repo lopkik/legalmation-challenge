@@ -13,8 +13,8 @@ export function makeServer({ environment = "test" } = {}) {
         get author() {
           return "author1";
         },
-        get isRead() {
-          return false;
+        get publishDate() {
+          return new Date();
         },
       }),
     },
@@ -27,7 +27,7 @@ export function makeServer({ environment = "test" } = {}) {
       server.create("book", {
         title: "book 1",
         author: "someone",
-        isRead: false,
+        publishDate: new Date(),
       });
       server.createList("book", 5);
     },
