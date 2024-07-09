@@ -7,14 +7,16 @@ export function makeServer({ environment = "test" } = {}) {
 
     factories: {
       book: Factory.extend<Partial<Book>>({
-        get title() {
-          return "book1";
+        title(i) {
+          return `Book ${i}`;
         },
-        get author() {
-          return "author1";
+        author(i) {
+          return `author ${i}`;
         },
-        get publishDate() {
-          return new Date();
+        publishDate(i) {
+          let d = new Date();
+          d.setDate(d.getDate() - i - 1);
+          return d.toISOString();
         },
       }),
     },
@@ -25,11 +27,21 @@ export function makeServer({ environment = "test" } = {}) {
 
     seeds(server) {
       server.create("book", {
-        title: "book 1",
-        author: "someone",
-        publishDate: new Date(),
+        title: "The Fellowship of the Ring",
+        author: "J.R.R Tolkien",
+        publishDate: new Date("1954-07-29").toISOString(),
       });
-      server.createList("book", 5);
+      server.create("book", {
+        title: "The Two Towers",
+        author: "J.R.R Tolkien",
+        publishDate: new Date("1954-11-11").toISOString(),
+      });
+      server.create("book", {
+        title: "The Return of the King",
+        author: "J.R.R Tolkien",
+        publishDate: new Date("1955-10-20").toISOString(),
+      });
+      server.createList("book", 2);
     },
     routes() {
       this.namespace = "api";
@@ -40,7 +52,12 @@ export function makeServer({ environment = "test" } = {}) {
 
       this.post("/books");
 
-      this.patch("/books/:id");
+      this.put("/books/:id", function (schema, request) {
+        let attrs = JSON.parse(request.requestBody);
+        let { id } = request.params;
+        schema.db.books.update(id, attrs);
+        return schema.db.books.find(id);
+      });
 
       this.del("/books/:id");
     },
