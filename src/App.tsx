@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { DBBook } from "./types";
 import BookListEntry from "./components/BookListEntry";
 import BookDetails from "./components/BookDetails";
+import CreateBookForm from "./components/CreateBookForm";
 
 function App() {
   const [searchText, setSearchText] = useState("");
@@ -23,26 +24,24 @@ function App() {
       </div>
       <main>
         <div>
-          <h3>Search by name</h3>
+          <b>Search by title:</b>
           <input
-            type="text"
-            name="book-title-search"
-            id="book-title-search"
+            type="search"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-          <span>
-            <button>Create New</button>
-          </span>
-        </div>
-        <div id="two-pane-container">
+
+          <hr />
+
           <div>
             <div className="book-list-entry">
               <div className="title">Title</div>
               <div className="title">Author</div>
             </div>
             {books
-              .filter((book) => book.title.includes(searchText))
+              .filter((book) =>
+                book.title.toLowerCase().includes(searchText.toLowerCase())
+              )
               .map((book, i) => (
                 <BookListEntry
                   key={book.id}
@@ -53,6 +52,12 @@ function App() {
                   publishDate={book.publishDate}
                 />
               ))}
+          </div>
+        </div>
+        <div>
+          <div id="create-new-book">
+            Add new book
+            <CreateBookForm setBooks={setBooks} />
           </div>
 
           <div id="selected-book">

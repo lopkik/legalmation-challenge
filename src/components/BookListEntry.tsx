@@ -9,7 +9,7 @@ function BookListEntry(props: BookListEntryProps) {
   return (
     <div className="book-list-entry" onClick={props.onClick}>
       <div>{props.title}</div>
-      <div>{props.author}</div>
+      <div style={{ textAlign: "end" }}>{props.author}</div>
     </div>
   );
 }

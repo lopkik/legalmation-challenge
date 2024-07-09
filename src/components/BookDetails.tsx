@@ -15,10 +15,6 @@ function BookDetails(props: BookDetailsProps) {
 
   const updateBook = async () => {
     try {
-      // const formData = new FormData();
-      // formData.append("title", title);
-      // formData.append("author", author);
-      // formData.append("publishDate", new Date(publishDate).toISOString());
       let formData: Book = {
         title,
         author,
@@ -36,6 +32,7 @@ function BookDetails(props: BookDetailsProps) {
         newBooksJson.books.findIndex((book) => book.id === props.id)
       );
     } catch (err) {
+      // TODO: catch invalid form values
       if (typeof err === "string") {
         console.error(err);
       } else if (err instanceof Error) {
@@ -70,7 +67,7 @@ function BookDetails(props: BookDetailsProps) {
       </div>
       <form id="update-form">
         <label>
-          <div className="title">Title</div>
+          <div>Title</div>
           <input
             type="text"
             name="title"

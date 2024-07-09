@@ -50,7 +50,10 @@ export function makeServer({ environment = "test" } = {}) {
 
       this.get("/books/:id");
 
-      this.post("/books");
+      this.post("/books", function (schema, request) {
+        let attrs = JSON.parse(request.requestBody);
+        return schema.create("book", attrs);
+      });
 
       this.put("/books/:id", function (schema, request) {
         let attrs = JSON.parse(request.requestBody);
