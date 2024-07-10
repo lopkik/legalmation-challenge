@@ -2,9 +2,11 @@ import { useState } from "react";
 import AddBookForm from "./features/books/AddBookForm";
 import { BookList } from "./features/books/BookList";
 import EditBookForm from "./features/books/EditBookForm";
+import { useAppSelector } from "./app/hooks";
 
 function App() {
   const [searchText, setSearchText] = useState("");
+  const selectedBookId = useAppSelector((state) => state.books.selectedBookId);
 
   return (
     <div id="main-container">
@@ -31,7 +33,7 @@ function App() {
           </div>
 
           <div id="selected-book">
-            <EditBookForm />
+            {selectedBookId ? <EditBookForm /> : <div>No book selected</div>}
           </div>
         </div>
       </main>

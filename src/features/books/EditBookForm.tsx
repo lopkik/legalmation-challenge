@@ -2,30 +2,35 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
 import { deleteBook, updateBook } from "./booksSlice";
 
+// interface EditBookFormProps {
+//   selectedBookId
+// }
+
 function EditBookForm() {
   const selectedBookId = useAppSelector((state) => state.books.selectedBookId);
-
-  let book = useAppSelector((state) =>
+  const book = useAppSelector((state) =>
     state.books.books.find((book) => book.id === selectedBookId)
   )!;
   const dispatch = useAppDispatch();
 
-  const [title, setTitle] = useState(book.title);
-  const [author, setAuthor] = useState(book.author);
-  const [publishDate, setPublishDate] = useState(
+  const [title, setTitle] = useState<string>(book.title);
+  const [author, setAuthor] = useState<string>(book.author);
+  const [publishDate, setPublishDate] = useState<string>(
     new Date(book.publishDate).toLocaleDateString("en-CA")
   );
 
   useEffect(() => {
-    setTitle(book.title);
-    setAuthor(book.author);
-    setPublishDate(new Date(book.publishDate).toLocaleDateString("en-CA"));
-  }, [book.id]);
+    if (selectedBookId) {
+      setTitle(book.title);
+      setAuthor(book.author);
+      setPublishDate(new Date(book.publishDate).toLocaleDateString("en-CA"));
+    }
+  }, [selectedBookId]);
 
   const updateSelectedBook = async () => {
     try {
       await dispatch(
-        updateBook({ id: book.id, title, author, publishDate })
+        updateBook({ id: book.id, title: title!, author: author!, publishDate })
       ).unwrap();
     } catch (err) {
       // TODO: catch invalid form values
@@ -49,7 +54,7 @@ function EditBookForm() {
     }
   };
 
-  return selectedBookId ? (
+  return (
     <div>
       <div id="details-header">Book Details</div>
       <div id="details-buttons-container">
@@ -86,8 +91,6 @@ function EditBookForm() {
         </label>
       </form>
     </div>
-  ) : (
-    <div>No book selected</div>
   );
 }
 
