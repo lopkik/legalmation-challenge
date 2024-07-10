@@ -4,7 +4,6 @@ import { addNewBook } from "./booksSlice";
 
 function AddBookForm() {
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
   const [publishDate, setPublishDate] = useState(
     new Date(Date.now()).toLocaleDateString("en-CA")
   );
@@ -12,16 +11,15 @@ function AddBookForm() {
 
   const dispatch = useAppDispatch();
 
-  const canSave =
-    [title, author, publishDate].every(Boolean) && addRequestStatus === "idle";
+  const canAdd =
+    [title, publishDate].every(Boolean) && addRequestStatus === "idle";
 
   const addBook = async () => {
-    if (canSave) {
+    if (canAdd) {
       try {
         setAddRequestStatus("pending");
-        await dispatch(addNewBook({ title, author, publishDate })).unwrap();
+        await dispatch(addNewBook({ title, publishDate })).unwrap();
         setTitle("");
-        setAuthor("");
         setPublishDate(new Date(Date.now()).toLocaleDateString("en-CA"));
       } catch (err) {
         // TODO: catch invalid form values
@@ -48,15 +46,6 @@ function AddBookForm() {
         />
       </label>
       <label>
-        <div>Author:</div>
-        <input
-          type="text"
-          name="author"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        />
-      </label>
-      <label>
         <div>Publish Date:</div>
         <input
           type="date"
@@ -71,5 +60,5 @@ function AddBookForm() {
     </form>
   );
 }
-
+``;
 export default AddBookForm;

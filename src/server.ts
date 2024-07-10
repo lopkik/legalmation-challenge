@@ -1,5 +1,5 @@
-import { createServer, Factory, Model } from "miragejs";
-import { Book } from "./types";
+import { belongsTo, createServer, Factory, hasMany, Model } from "miragejs";
+import { Author, Book } from "./types";
 
 export function makeServer({ environment = "test" } = {}) {
   let server = createServer({
@@ -10,9 +10,6 @@ export function makeServer({ environment = "test" } = {}) {
         title(i) {
           return `Book ${i + 1}`;
         },
-        author(i) {
-          return `author ${i + 1}`;
-        },
         publishDate(i) {
           let d = new Date();
           d.setDate(d.getDate() - i - 1);
@@ -22,33 +19,64 @@ export function makeServer({ environment = "test" } = {}) {
     },
 
     models: {
-      book: Model.extend<Partial<Book>>({}),
+      author: Model.extend<Partial<Author>>({}),
+      book: Model.extend({
+        author: belongsTo(),
+      }),
     },
 
     seeds(server) {
+      let tolkien = server.create("author", {
+        name: "J.R.R. Tolkien",
+        birthYear: 1892,
+      });
+      let asimov = server.create("author", {
+        name: "Isaac Asimov",
+        birthYear: 1920,
+      });
       server.create("book", {
         title: "The Fellowship of the Ring",
-        author: "J.R.R Tolkien",
+        author: tolkien,
         publishDate: new Date("1954-07-29").toISOString(),
       });
       server.create("book", {
         title: "The Two Towers",
-        author: "J.R.R Tolkien",
+        author: tolkien,
         publishDate: new Date("1954-11-11").toISOString(),
       });
       server.create("book", {
         title: "The Return of the King",
-        author: "J.R.R Tolkien",
+        author: tolkien,
         publishDate: new Date("1955-10-20").toISOString(),
+      });
+      server.create("book", {
+        title: "I, Robot",
+        author: asimov,
+        publishDate: new Date("1950-12-02").toISOString(),
+      });
+      server.create("book", {
+        title: "The Gods Themselves",
+        author: asimov,
+        publishDate: new Date("1972-05-01").toISOString(),
       });
       server.createList("book", 2);
     },
     routes() {
       this.namespace = "api";
 
-      this.get("/books");
+      this.get("/books", function (schema) {
+        return schema.all("book");
+      });
 
-      this.get("/books/:id");
+      this.get("/books/:id", function (schema, request) {
+        let book = schema.find("book", request.params.id);
+        if (!book) return { error: "Invalid ID" };
+        return {
+          title: book.title,
+          publishDate: book.publishDate,
+          author: (book.author as { author: Author }).author as Author,
+        };
+      });
 
       this.post("/books", function (schema, request) {
         let attrs = JSON.parse(request.requestBody);

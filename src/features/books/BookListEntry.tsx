@@ -7,7 +7,7 @@ interface BookListEntryProps {
 }
 
 function BookListEntry(props: BookListEntryProps) {
-  const { id, title, author } = props.book;
+  const { id, title } = props.book;
   const selectedBookId = useAppSelector((state) => state.books.selectedBookId);
 
   const dispatch = useAppDispatch();
@@ -21,7 +21,6 @@ function BookListEntry(props: BookListEntryProps) {
       }}
     >
       <div>{title}</div>
-      <div style={{ textAlign: "end" }}>{author}</div>
     </div>
   );
 }

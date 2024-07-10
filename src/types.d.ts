@@ -1,7 +1,11 @@
 export interface Book {
   title: string;
-  author: string;
   publishDate: string;
+}
+
+export interface Author {
+  name: string;
+  birthYear: number;
 }
 
 export interface DBBook extends Book {

@@ -81,11 +81,10 @@ const booksSlice = createSlice({
       state.books.push(action.payload);
     });
     builder.addCase(updateBook.fulfilled, (state, action) => {
-      const { id, title, author, publishDate } = action.payload;
+      const { id, title, publishDate } = action.payload;
       const existingBook = state.books.find((book) => book.id === id);
       if (existingBook) {
         existingBook.title = title;
-        existingBook.author = author;
         existingBook.publishDate = publishDate;
       }
     });

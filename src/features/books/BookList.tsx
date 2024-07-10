@@ -38,7 +38,6 @@ export function BookList(props: BookListProps) {
     <div>
       <div className="book-list-entry">
         <div className="title">Title</div>
-        <div className="title">Author</div>
       </div>
 
       {content}
