@@ -35,34 +35,43 @@ function AddBookForm() {
   };
 
   return (
-    <form>
-      <label>
-        <div>Title</div>
-        <input
-          data-testid="add-book-title"
-          type="text"
-          name="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </label>
-      <label>
-        <div>Publish Date:</div>
-        <input
-          type="date"
-          name="publish-date"
-          value={publishDate}
-          onChange={(e) => setPublishDate(e.target.value)}
-        />
-      </label>
+    <div id="create-form-container">
+      <form
+        action=""
+        onSubmit={(e) => {
+          e.preventDefault();
+          addBook();
+        }}
+      >
+        <label>
+          <div>Title</div>
+          <input
+            data-testid="add-book-title"
+            type="text"
+            name="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </label>
+        <label>
+          <div>Publish Date:</div>
+          <input
+            type="date"
+            name="publish-date"
+            value={publishDate}
+            onChange={(e) => setPublishDate(e.target.value)}
+          />
+        </label>
+      </form>
       <button
+        id="add-book-button"
         data-testid="add-book-button"
         type="button"
         onClick={() => addBook()}
       >
         Add
       </button>
-    </form>
+    </div>
   );
 }
 ``;

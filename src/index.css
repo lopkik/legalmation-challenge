@@ -71,6 +71,31 @@ main {
 
 #create-new-book {
   height: 50%;
-  padding: 0.5rem;
+  padding: 0.5rem 0rem;
   border: 1px solid black;
+}
+
+#create-new-book-header {
+  padding-bottom: 0.5rem;
+  display: flex;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+  justify-content: center;
+}
+
+#create-form-container {
+  padding: 0.5rem 0.5rem 0rem;
+}
+
+#add-book-button {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+#no-book-selected {
+  padding: 0.5rem;
+  display: flex;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+  justify-content: center;
 }

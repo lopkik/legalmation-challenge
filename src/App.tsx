@@ -28,12 +28,16 @@ function App() {
         </div>
         <div>
           <div id="create-new-book">
-            Add new book
+            <div id="create-new-book-header">Add new book</div>
             <AddBookForm />
           </div>
 
           <div id="selected-book">
-            {selectedBookId ? <EditBookForm /> : <div>No book selected</div>}
+            {selectedBookId ? (
+              <EditBookForm />
+            ) : (
+              <div id="no-book-selected">No book selected</div>
+            )}
           </div>
         </div>
       </main>
