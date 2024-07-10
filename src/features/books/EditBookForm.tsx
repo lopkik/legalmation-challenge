@@ -42,7 +42,11 @@ function EditBookForm() {
   const updateSelectedBook = async () => {
     try {
       await dispatch(
-        updateBook({ id: book.id, title: title!, publishDate })
+        updateBook({
+          id: book.id,
+          title: title!,
+          publishDate: new Date(publishDate).toISOString(),
+        })
       ).unwrap();
     } catch (err) {
       // TODO: catch invalid form values

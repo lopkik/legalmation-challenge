@@ -18,7 +18,12 @@ function AddBookForm() {
     if (canAdd) {
       try {
         setAddRequestStatus("pending");
-        await dispatch(addNewBook({ title, publishDate })).unwrap();
+        await dispatch(
+          addNewBook({
+            title,
+            publishDate: new Date(publishDate).toISOString(),
+          })
+        ).unwrap();
         setTitle("");
         setPublishDate(new Date(Date.now()).toLocaleDateString("en-CA"));
       } catch (err) {
