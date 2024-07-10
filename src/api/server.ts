@@ -1,7 +1,7 @@
-import { belongsTo, createServer, Factory, hasMany, Model } from "miragejs";
-import { Author, Book } from "./types";
+import { belongsTo, createServer, Factory, Model } from "miragejs";
+import { Author, Book } from "../types";
 
-export function makeServer({ environment = "test" } = {}) {
+export function makeServer(environment = "development") {
   let server = createServer({
     environment,
 
@@ -74,7 +74,7 @@ export function makeServer({ environment = "test" } = {}) {
         return {
           title: book.title,
           publishDate: book.publishDate,
-          author: (book.author as { author: Author }).author as Author,
+          author: book.author,
         };
       });
 

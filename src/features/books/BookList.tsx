@@ -25,11 +25,15 @@ export function BookList(props: BookListProps) {
   if (bookStatus === "loading") {
     content = <div>Loading...</div>;
   } else if (bookStatus === "succeeded") {
-    content = books
-      .filter((book) =>
-        book.title.toLowerCase().includes(props.searchText.toLowerCase())
-      )
-      .map((book) => <BookListEntry key={book.id} book={book} />);
+    content = books.length ? (
+      books
+        .filter((book) =>
+          book.title.toLowerCase().includes(props.searchText.toLowerCase())
+        )
+        .map((book) => <BookListEntry key={book.id} book={book} />)
+    ) : (
+      <div>No books found</div>
+    );
   } else if (bookStatus === "failed") {
     content = <div>{error}</div>;
   }
