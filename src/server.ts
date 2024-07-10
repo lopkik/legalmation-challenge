@@ -8,10 +8,10 @@ export function makeServer({ environment = "test" } = {}) {
     factories: {
       book: Factory.extend<Partial<Book>>({
         title(i) {
-          return `Book ${i}`;
+          return `Book ${i + 1}`;
         },
         author(i) {
-          return `author ${i}`;
+          return `author ${i + 1}`;
         },
         publishDate(i) {
           let d = new Date();
