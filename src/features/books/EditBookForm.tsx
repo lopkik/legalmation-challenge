@@ -15,16 +15,19 @@ function EditBookForm() {
   const [publishDate, setPublishDate] = useState<string>(
     new Date(book.publishDate).toLocaleDateString("en-CA")
   );
+  const [pendingAuthor, setPendingAuthor] = useState(false);
 
   useEffect(() => {
     if (selectedBookId) {
       setTitle(book.title);
       setPublishDate(new Date(book.publishDate).toLocaleDateString("en-CA"));
+      setPendingAuthor(true);
       (async function () {
         try {
           const authorRes = await fetch(`api/books/${selectedBookId}`);
           const authorResJson = await authorRes.json();
           setAuthor(authorResJson ? authorResJson.author : null);
+          setPendingAuthor(false);
         } catch (err) {
           if (typeof err === "string") {
             console.error(err);
@@ -67,30 +70,44 @@ function EditBookForm() {
     <div>
       <div id="details-header">Book Details</div>
       <div id="details-buttons-container">
-        <button onClick={() => updateSelectedBook()}>update</button>
-        <button onClick={() => deleteSelectedBook()}>delete</button>
+        <button
+          data-testid="edit-update-button"
+          onClick={() => updateSelectedBook()}
+        >
+          Update
+        </button>
+        <button
+          data-testid="edit-delete-button"
+          onClick={() => deleteSelectedBook()}
+        >
+          Delete
+        </button>
       </div>
       <form id="update-form">
-        <label>
+        <label htmlFor="edit-book-title">
           <div>Title</div>
           <input
+            id="edit-book-title"
+            data-testid="edit-book-title"
             type="text"
-            name="title"
+            name="edit-book-title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </label>
-        <label>
+        <label htmlFor="edit-book-date">
           <div>Publish Date:</div>
           <input
+            id="edit-book-date"
+            data-testid="edit-book-date"
             type="date"
-            name="publish-date"
+            name="edit-book-date"
             value={publishDate}
             onChange={(e) => setPublishDate(e.target.value)}
           />
         </label>
         <div>
-          {author ? (
+          {author && !pendingAuthor ? (
             <span>
               Author: {author.name} (born {author.birthYear})
             </span>

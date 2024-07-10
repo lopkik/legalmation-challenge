@@ -39,6 +39,7 @@ function AddBookForm() {
       <label>
         <div>Title</div>
         <input
+          data-testid="add-book-title"
           type="text"
           name="title"
           value={title}
@@ -54,7 +55,11 @@ function AddBookForm() {
           onChange={(e) => setPublishDate(e.target.value)}
         />
       </label>
-      <button type="button" onClick={() => addBook()}>
+      <button
+        data-testid="add-book-button"
+        type="button"
+        onClick={() => addBook()}
+      >
         Add
       </button>
     </form>

@@ -15,6 +15,7 @@ function BookListEntry(props: BookListEntryProps) {
   return (
     <div
       className="book-list-entry"
+      data-testid="book-list-entry"
       onClick={() => dispatch(setSelectedBookId(id))}
       style={{
         backgroundColor: selectedBookId === id ? "#e1e1d5" : "white",
